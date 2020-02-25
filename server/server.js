@@ -38,6 +38,33 @@ app.post('/api/users/register', (req, res) => {
         res.status(200).json({success: true, userdata: doc.name })
     });
 
+});
+
+
+app.post('/api/users/login', (req, res) => {
+
+    //STEPS:
+    //find email
+    //check pass
+    //generate token
+
+
+    User.findOne({'email': req.body.email }, (err, user) => {
+        if(!user) return res.json({loginSuccess: false, message: 'Auth failes, email not found'});
+
+        user.comparePassword( req.body.password, (err, isMatch) => {
+            if(!isMatch) return res.json({loginSuccess: false, message: 'wrong password'});
+
+            user.generateToken((err, user)=> {
+                if(err) return res.status(400).send(err);
+                res.cookie('w_auth', user.token ).status(200).json({loginSuccess: true})
+            } )
+        } ) 
+
+    })
+
+   
+
 })
 
 
