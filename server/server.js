@@ -16,6 +16,34 @@ app.use(cookieParser());
 
 
 
+//==============
+// MODELS
+//==============
+
+const { User } = require('./models/User');
+
+
+
+
+//==============
+// USERS
+//==============
+
+app.post('/api/users/register', (req, res) => {
+    res.status(200);
+})
+
+
+
+
+
+
+
+
+
+
+
+
 const port = process.env.PORT || 3002;
 
 app.listen(port, ()=> console.log(`Sever running on port: ${port}`));
