@@ -14,7 +14,10 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 app.use(cookieParser());
 
-
+//==============
+// MIDDLEWARES
+//==============
+const auth = require('./middleware/auth');
 
 //==============
 // MODELS
@@ -28,6 +31,22 @@ const { User } = require('./models/User');
 //==============
 // USERS
 //==============
+
+app.get('/api/users/auth', auth,  (req, res ) => {
+    res.status(200).json({
+        isAdmin: req.user.role === 0 ? false : true,
+        isAuth: true,
+        email: req.user.email,
+        name: req.user.name,
+        lastname: req.user.lastname,
+        role: req.user.role,
+        cart: req.user.cart,
+        history: req.user.history
+    })
+})
+
+
+
 
 app.post('/api/users/register', (req, res) => {
     
